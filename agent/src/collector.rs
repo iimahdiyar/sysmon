@@ -1,4 +1,3 @@
-
 use common::error::{MonitorError, MonitorResult};
 use std::net::{TcpStream, ToSocketAddrs};
 use std::time::{Duration, Instant};
@@ -38,7 +37,12 @@ impl MetricCollector for CpuCollector {
 
     fn collect(&mut self) -> MonitorResult<CollectedValue> {
         self.sys.refresh_cpu_usage();
-        let usage = self.sys.global_cpu_usage();
+        let cpus = self.sys.cpus();
+        let usage = if cpus.is_empty() {
+            0.0
+        } else {
+            cpus.iter().map(|c| c.cpu_usage()).sum::<f32>() / cpus.len() as f32
+        };
         Ok(CollectedValue::Cpu(usage))
     }
 }
@@ -118,7 +122,7 @@ impl MetricCollector for NetworkCollector {
     }
 
     fn collect(&mut self) -> MonitorResult<CollectedValue> {
-        self.networks.refresh(true);
+        self.networks.refresh();
         let elapsed = self.last_sample.elapsed().as_secs_f64().max(0.001);
         self.last_sample = Instant::now();
 
