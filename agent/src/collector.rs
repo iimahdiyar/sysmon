@@ -122,7 +122,7 @@ impl MetricCollector for NetworkCollector {
     }
 
     fn collect(&mut self) -> MonitorResult<CollectedValue> {
-        self.networks.refresh();
+        self.networks.refresh(true);
         let elapsed = self.last_sample.elapsed().as_secs_f64().max(0.001);
         self.last_sample = Instant::now();
 
