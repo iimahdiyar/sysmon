@@ -30,7 +30,7 @@ fn ping_color(ping_ms: Option<u32>) -> Color32 {
 fn card_frame() -> Frame {
     Frame::none()
         .fill(Color32::from_rgb(32, 34, 40))
-        .stroke(Stroke::new(1.0, Color32::from_rgb(52, 55, 64)))
+        .stroke(Stroke::new(1.0_f32, Color32::from_rgb(52, 55, 64)))
         .rounding(Rounding::same(10.0))
         .inner_margin(egui::Margin::same(14.0))
 }
@@ -110,7 +110,7 @@ impl eframe::App for DashboardApp {
 
                         let mut frame = card_frame();
                         if is_selected {
-                            frame = frame.stroke(Stroke::new(1.5, COLOR_ACCENT));
+                            frame = frame.stroke(Stroke::new(1.5_f32, COLOR_ACCENT));
                         }
 
                         let mut stop_clicked = false;
@@ -364,7 +364,7 @@ impl eframe::App for DashboardApp {
                             Line::new(points)
                                 .name("CPU %")
                                 .color(COLOR_ACCENT)
-                                .fill(0.0),
+                                .fill(0.0_f32),
                         );
                     });
             });

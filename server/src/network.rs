@@ -51,8 +51,8 @@ async fn handle_connection(mut socket: TcpStream, store: SharedStore) -> Monitor
                 let alerts = analyze(&report.agent_id, &report.metrics);
                 for alert in &alerts {
                     println!(
-                        "[ALERT:{:?}] {} -> {}",
-                        alert.level, alert.agent_id, alert.message
+                        "[ALERT:{:?}:{:?}] {} -> {}",
+                        alert.level, alert.kind, alert.agent_id, alert.message
                     );
                 }
                 store.push_report(report);
